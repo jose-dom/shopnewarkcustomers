@@ -102,7 +102,7 @@ def profile_update(request):
 def trans(request):
     transactions = []
     results = dynamoTable_trans.scan()
-
+    total_amount = 0
     for result in results['Items']:
         if result['user_email'] == request.user.email:
             trans_id = result['uuid']
@@ -112,6 +112,7 @@ def trans(request):
             trans_vendor_website = result['vendor_website']
             trans_date = result['date']
             trans_amount = result['amount']
+            total_amount += result['amount']
             trans = [
                 trans_id, 
                 trans_vendor_company_name,
@@ -123,6 +124,7 @@ def trans(request):
             ]
             transactions.append(trans)
     context = {
-        'transactions': transactions
+        'transactions': transactions,
+        'total_amount': total_amount
     }
     return render(request, 'users/trans.html', context)
