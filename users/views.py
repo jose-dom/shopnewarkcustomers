@@ -12,6 +12,22 @@ dynamodb = boto3.resource("dynamodb")
 dynamoTable = dynamodb.Table("Users")
 dynamoTable_trans = dynamodb.Table("Transactions")
 
+def error_view(request):
+    if request.user.is_authenticated:
+        messages.warning(request,f'Invalid Request. Please report any issue to via email to developer@jasfel.com')
+        return redirect('profile')
+    else:
+        messages.warning(request,f'Invalid Request. Please Login.')
+        return redirect('login')
+
+def error_view_400(request, exception):
+    if request.user.is_authenticated:
+        messages.warning(request,f'Invalid Request. Please report any issue to via email to developer@jasfel.com')
+        return redirect('profile')
+    else:
+        messages.warning(request,f'Invalid Request. Please Login.')
+        return redirect('login')
+
 def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)

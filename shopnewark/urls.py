@@ -32,5 +32,12 @@ urlpatterns = [
     path('trans/', user_views.trans, name='trans'),
 ]
 
+
+handler404 = 'users.views.error_view_400'
+handler500 = 'users.views.error_view'
+handler403 = 'users.views.error_view_400'
+handler400 = 'users.views.error_view_400'
+
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

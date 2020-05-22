@@ -9,6 +9,3 @@ import datetime
 
 def home(request):
     return redirect('profile')
-
-def about(request):
-    return render(request, 'core/about.html')
