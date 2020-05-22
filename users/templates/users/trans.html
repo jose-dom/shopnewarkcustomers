@@ -113,7 +113,7 @@
           <div class="container">
             <div class="row my-5">
               <div class="col-12 ml-auto">
-                  <a class="btn btn-dark rounded-pill px-4 py-2 text-white" style="float:left;" href="{% url 'profile' %}">Back to Profile&nbsp;&nbsp;&nbsp;<i class="fas fa-users-cog"></i></a>
+                  <a class="btn btn-dark rounded-pill px-4 py-2 text-white" style="float:left;" href="{% url 'profile' %}"><i class="fas fa-arrow-circle-left"></i>&nbsp;&nbsp;&nbsp;Back to Profile</a>
                   <a class="btn btn-danger rounded-pill px-4 py-2 text-white" style="float:right;" href="{% url 'logout' %}">Logout&nbsp;&nbsp;&nbsp;<i class="fas fa-sign-out-alt"></i></a>
               </div>
             </div>
@@ -191,9 +191,9 @@
                         <h5 class="card-title text-uppercase text-center">Total Spent</h5>
                         <hr>
                         {% if total_amount == 0 %}
-                        <h6 class="card-price text-center">$&nbsp;&nbsp;0</h6>
+                        <h6 class="card-price text-center">$0</h6>
                         {% else %}
-                        <h6 class="card-price text-center">$&nbsp;&nbsp;{{ total_amount }}</h6>
+                        <h6 class="card-price text-center">${{ total_amount }}</h6>
                         {% endif %}
                       </div>
                     </div>
@@ -273,6 +273,7 @@
                     title: 'Shop Newark - Export Data',
                     orientation: 'landscape',
                     filename: 'shop-newark-export-data',
+                    responsive: true,
                     exportOptions: {
                         modifier: {
                             page: 'current'
