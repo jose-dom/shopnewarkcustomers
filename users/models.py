@@ -54,10 +54,10 @@ class User(AbstractBaseUser):
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
 
-    first_name = models.CharField(max_length=30, unique=False, verbose_name="<strong>First Name</strong>&nbsp;")
-    last_name = models.CharField(max_length=30, unique=False, verbose_name="<strong>Last Name</strong>&nbsp;")
-    address = models.CharField(max_length=3000, unique=False, verbose_name="<strong>Address</strong>&nbsp;", help_text='Ex: 123 Broad St, Newark, NJ, 07102', default='')
-    phone_number = models.CharField(blank=False, help_text='Contact Phone Number', max_length=12, verbose_name="<strong>Phone Number</strong>&nbsp;")
+    first_name = models.CharField(max_length=30, unique=False, verbose_name="First Name")
+    last_name = models.CharField(max_length=30, unique=False, verbose_name="Last Name")
+    address = models.CharField(max_length=3000, unique=False, verbose_name="Address", help_text='Ex: 123 Broad St, Newark, NJ, 07102', default='')
+    phone_number = models.CharField(blank=False, help_text='Contact Phone Number', max_length=12, verbose_name="Phone Number")
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name','last_name', 'address', 'phone_number']
