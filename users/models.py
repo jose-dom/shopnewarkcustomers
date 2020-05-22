@@ -54,10 +54,10 @@ class User(AbstractBaseUser):
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
 
-    first_name = models.CharField(max_length=30, unique=False)
-    last_name = models.CharField(max_length=30, unique=False)
-    address = models.CharField(max_length=3000, unique=False, verbose_name="Address", help_text='Ex: 123 Broad St, Newark, NJ, 07102', default='')
-    phone_number = models.CharField(blank=False, help_text='Contact Phone Number', max_length=12)
+    first_name = models.CharField(max_length=30, unique=False, verbose_name="<strong>First Name</strong>&nbsp;")
+    last_name = models.CharField(max_length=30, unique=False, verbose_name="<strong>Last Name</strong>&nbsp;")
+    address = models.CharField(max_length=3000, unique=False, verbose_name="<strong>Address</strong>&nbsp;", help_text='Ex: 123 Broad St, Newark, NJ, 07102', default='')
+    phone_number = models.CharField(blank=False, help_text='Contact Phone Number', max_length=12, verbose_name="<strong>Phone Number</strong>&nbsp;")
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name','last_name', 'address', 'phone_number']
@@ -76,7 +76,7 @@ class User(AbstractBaseUser):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    image = models.ImageField(default='default.png', upload_to='profile_pics')
+    image = models.ImageField(default='default.png', upload_to='profile_pics', verbose_name="Profile Image")
 
     def __str__(self):
         return f'{self.user.email} Profile'

@@ -77,3 +77,52 @@ def profile(request):
         'transactions': transactions
     }
     return render(request, 'users/profile.html', context)
+
+@login_required
+def profile_update(request):
+    if request.method == 'POST':
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+        
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request, f'Your account has been updated!')
+            return redirect('profile')
+    else:
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=request.user.profile)
+
+    context = {
+        'u_form': u_form,
+        'p_form': p_form,
+    }
+    return render(request, 'users/profile_update.html', context)
+
+def trans(request):
+    transactions = []
+    results = dynamoTable_trans.scan()
+
+    for result in results['Items']:
+        if result['user_email'] == request.user.email:
+            trans_id = result['uuid']
+            trans_vendor_company_name = result['vendor_company_name']
+            trans_vendor_email = result['vendor_email']
+            trans_vendor_address = result['vendor_address']
+            trans_vendor_website = result['vendor_website']
+            trans_date = result['date']
+            trans_amount = result['amount']
+            trans = [
+                trans_id, 
+                trans_vendor_company_name,
+                trans_vendor_email,
+                trans_vendor_address,
+                trans_vendor_website,
+                trans_date,
+                trans_amount
+            ]
+            transactions.append(trans)
+    context = {
+        'transactions': transactions
+    }
+    return render(request, 'users/trans.html', context)
