@@ -103,6 +103,19 @@ def profile_update(request):
         if u_form.is_valid() and p_form.is_valid():
             u_form.save()
             p_form.save()
+            dynamoTable.update_item(
+                Key={
+                    "phone_number": request.user.phone_number,
+                },
+                UpdateExpression="set first_name=:first_name, last_name=:last_name, email=:email, address=:address",
+                ExpressionAttributeValues={
+                    ":first_name": request.user.first_name,
+                    ":last_name": request.user.last_name,
+                    ":email": request.user.email,
+                    ":address": request.user.address,
+                },
+                ReturnValues="UPDATED_NEW"
+            )
             messages.success(request, f'Your account has been updated!')
             return redirect('profile')
     else:
