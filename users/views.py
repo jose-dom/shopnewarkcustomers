@@ -133,7 +133,7 @@ def trans(request):
     results = dynamoTable_trans.scan()
     total_amount = 0
     for result in results['Items']:
-        if result['user_email'] == request.user.email:
+        if result['user_phone_number'] == request.user.phone_number:
             trans_id = result['uuid']
             trans_vendor_company_name = result['vendor_company_name']
             trans_vendor_email = result['vendor_email']
