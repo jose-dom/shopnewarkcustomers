@@ -23,8 +23,14 @@ def search_customer(request):
                 messages.warning(request, f'No customers were found by that phone number. Perhaps try searching by email.')
                 return redirect('search-customer')
             else:
-                request.session['phone_number'] = phone_number
-                return redirect('customer-results')
+                for u in users:
+                    if u.is_vendor == False:
+                        request.session['phone_number'] = phone_number
+                        return redirect('customer-results')
+                    else:
+                        messages.warning(request, f'No customers were found by that email. Perhaps try searching by phone number.')
+                        return redirect('search-customer')
+
     else:
         form = SearchCustomerForm()
     context = {
@@ -42,8 +48,13 @@ def search_customer_email(request):
             messages.warning(request, f'No customers were found by that email. Perhaps try searching by phone number.')
             return redirect('search-customer')
         else:
-            request.session['email'] = email
-            return redirect('customer-results-email')
+            for u in users:
+                if u.is_vendor == False:
+                    request.session['email'] = email
+                    return redirect('customer-results-email')
+                else:
+                    messages.warning(request, f'No customers were found by that email. Perhaps try searching by phone number.')
+                    return redirect('search-customer-email')
     else:
         form = SearchCustomerEmailForm()
     context = {
