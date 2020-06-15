@@ -27,7 +27,7 @@ def search_customer(request):
                     if u.is_vendor == False:
                         request.session['phone_number'] = phone_number
                         return redirect('customer-results')
-                    else:
+                    elif u.is_vendor == True:
                         messages.warning(request, f'No customers were found by that phone number. Perhaps try searching by email.')
                         return redirect('search-customer')
 
@@ -52,7 +52,7 @@ def search_customer_email(request):
                 if u.is_vendor == False:
                     request.session['email'] = email
                     return redirect('customer-results-email')
-                else:
+                elif u.is_vendor == True:
                     messages.warning(request, f'No customers were found by that email. Perhaps try searching by phone number.')
                     return redirect('search-customer-email')
     else:
