@@ -18,18 +18,13 @@ def search_customer(request):
         
         if form.is_valid():
             phone_number = request.POST['phone_number']
-            users = User.objects.all().filter(phone_number=phone_number)
+            users = User.objects.all().filter(phone_number=phone_number, is_vendor=False)
             if users.count() == 0:
                 messages.warning(request, f'No customers were found by that phone number. Perhaps try searching by email.')
                 return redirect('search-customer')
             else:
-                for u in users:
-                    if u.is_vendor == False:
-                        request.session['phone_number'] = phone_number
-                        return redirect('customer-results')
-                    elif u.is_vendor == True:
-                        messages.warning(request, f'No customers were found by that phone number. Perhaps try searching by email.')
-                        return redirect('search-customer')
+                request.session['phone_number'] = phone_number
+                return redirect('customer-results')
 
     else:
         form = SearchCustomerForm()
@@ -43,18 +38,13 @@ def search_customer_email(request):
         form = SearchCustomerEmailForm(request.POST)
         
         email = request.POST['email']
-        users = User.objects.all().filter(email=email)
+        users = User.objects.all().filter(email=email, is_vendor=False)
         if users.count() == 0:
             messages.warning(request, f'No customers were found by that email. Perhaps try searching by phone number.')
             return redirect('search-customer')
         else:
-            for u in users:
-                if u.is_vendor == False:
-                    request.session['email'] = email
-                    return redirect('customer-results-email')
-                elif u.is_vendor == True:
-                    messages.warning(request, f'No customers were found by that email. Perhaps try searching by phone number.')
-                    return redirect('search-customer-email')
+            request.session['email'] = email
+            return redirect('customer-results-email')
     else:
         form = SearchCustomerEmailForm()
     context = {
