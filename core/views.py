@@ -28,7 +28,7 @@ def search_customer(request):
                         request.session['phone_number'] = phone_number
                         return redirect('customer-results')
                     else:
-                        messages.warning(request, f'No customers were found by that email. Perhaps try searching by phone number.')
+                        messages.warning(request, f'No customers were found by that phone number. Perhaps try searching by email.')
                         return redirect('search-customer')
 
     else:
