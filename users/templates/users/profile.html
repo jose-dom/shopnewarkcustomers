@@ -13,41 +13,139 @@
             <div class="container">
                 <!--messages -->
                 {% include 'users/messages.html' %}
-                <!--user dash-->
-                <div class="row py-5">
-                  <!--user info-->
-                  <div class="col-lg-4">
+                {% if user.is_vendor %}
+                <!--vendors-->
+                  <div class="row py-5">
+                    <!--vendor info-->
+                    <div class="col-lg-4">
                       <div class="card mb-5 mb-lg-0">
                           <img class="account-img mx-auto py-2" width="auto" height="60px" src="{{ user.profile.image.url }}" />
                           <div class="card-body align-items-center">
-                              <h5 class="card-title text-uppercase">{{ user.first_name }} {{ user.last_name }}</h5>
-                              <h5 class="card-title text-uppercase">{{ user.email }}</h5>
-                              <h5 class="card-title text-uppercase">{{ user.address }}</h5>
-                              <h5 class="card-title text-uppercase">{{ user.phone_number }}</h5>
+                              <h5 class="card-title text-uppercase">Vendor Main Contact</h5>
+                              <ul class="fa-ul ml-0" style="list-style: none;">
+                                <li>{{ user.first_name }} {{ user.last_name }}</li>
+                                <li>{{ user.email }}</li>
+                                <li>{{ user.address }}</li>
+                                <li>{{ user.phone_number }}</li>
+                              </ul>
+                          </div>
+                          <div class="card-footer">
+                            <small class="text-muted">
+                              <a href="{% url 'profile-update' %}">Update</a> Main Contact Information & Vendor Profile Picture
+                            </small>
                           </div>
                       </div>
-                  </div>
-                  <!--user update profile-->
-                  <div class="col-lg-4">
-                    <div class="card mb-5 mb-lg-0">
-                      <div class="card-body m-auto">
-                        <h5 class="card-title text-uppercase text-center">Update Profile</h5>
-                        <hr>
-                        <a class="btn btn-warning rounded-pill px-4 py-2 text-white" href="{% url 'profile-update' %}">Update</a>
+                    </div>
+                    <!--view vendor info-->
+                    <div class="col-lg-4">
+                      <div class="card mb-5 mb-lg-0">
+                        <div class="card-body m-auto">
+                          <h5 class="card-title text-uppercase text-center">{{ user.vendor.company_name }}</h5>
+                          <hr>
+                          <a class="btn btn-warning rounded-pill px-4 py-2 text-white" href="{% url 'vendor-detail' user.vendor.id %}">View Details</a>
+                        </div>
+                        <div class="card-footer">
+                          <small class="text-muted">
+                            View Vendor Information
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+                    <!--update vendor info-->
+                    <div class="col-lg-4">
+                      <div class="card mb-5 mb-lg-0">
+                        <div class="card-body m-auto">
+                          <h5 class="card-title text-uppercase text-center">Update Vendor Information</h5>
+                          <hr>
+                          <a class="btn btn-warning rounded-pill px-4 py-2 text-white" href="{% url 'vendor-update-limited' %}">Update</a>
+                        </div>
+                        <div class="card-footer">
+                          <small class="text-muted">
+                            Update Vendor Information
+                          </small>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <!--transactions-->
-                  <div class="col-lg-4">
-                    <div class="card mb-5 mb-lg-0">
-                      <div class="card-body m-auto">
-                        <h5 class="card-title text-uppercase text-center">View Transactions</h5>
-                        <hr>
-                        <a class="btn btn-warning rounded-pill px-4 py-2 text-white" href="{% url 'trans' %}">Transactions</a>
+                  <div class="row py-5">
+                    {% if user.vendor.approved == "Yes" %}
+                    <div class="col-lg-4">
+                      <div class="card mb-5 mb-lg-0">
+                        <div class="card-body m-auto">
+                          <h5 class="card-title text-uppercase text-center">Enter Transaction</h5>
+                          <hr>
+                          <a class="btn btn-warning rounded-pill px-4 py-2 text-white" href="{% url 'search-customer' %}">Search Customer</a>
+                        </div>
+                        <div class="card-footer">
+                          <small class="text-muted">
+                            Note: You will be prompted to enter new transaction once you select customer
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="card mb-5 mb-lg-0">
+                        <div class="card-body m-auto">
+                          <h5 class="card-title text-uppercase text-center">View Transactions</h5>
+                          <hr>
+                          <a class="btn btn-warning rounded-pill px-4 py-2 text-white" href="{% url 'vendor-transactions' %}">Transactions</a>
+                        </div>
+                        <div class="card-footer">
+                          <small class="text-muted">
+                            View Transaction History
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+                    {% endif %}
+                  </div>
+                {% else %}
+                <!--customers-->
+                  <div class="row py-5">
+                    <div class="col-lg-4">
+                      <div class="card mb-5 mb-lg-0">
+                          <img class="account-img mx-auto py-2" width="auto" height="60px" src="{{ user.profile.image.url }}" />
+                          <div class="card-body align-items-center">
+                              <h5 class="card-title text-uppercase">Customer Profile</h5>
+                              <ul class="fa-ul ml-0" style="list-style: none;">
+                                <li>{{ user.first_name }} {{ user.last_name }}</li>
+                                <li>{{ user.email }}</li>
+                                <li>{{ user.address }}</li>
+                                <li>{{ user.phone_number }}</li>
+                              </ul>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="card mb-5 mb-lg-0">
+                        <div class="card-body m-auto">
+                          <h5 class="card-title text-uppercase text-center">Update Profile</h5>
+                          <hr>
+                          <a class="btn btn-warning rounded-pill px-4 py-2 text-white" href="{% url 'profile-update' %}">Update</a>
+                        </div>
+                        <div class="card-footer">
+                          <small class="text-muted">
+                            Update Personal Contact Information & Profile Picture
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="card mb-5 mb-lg-0">
+                        <div class="card-body m-auto">
+                          <h5 class="card-title text-uppercase text-center">View Transactions</h5>
+                          <hr>
+                          <a class="btn btn-warning rounded-pill px-4 py-2 text-white" href="{% url 'customer-transactions' %}">Transactions</a>
+                        </div>
+                        <div class="card-footer">
+                          <small class="text-muted">
+                            View Transaction History
+                          </small>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                {% endif %}
             </div>
         </section>
         {% include 'users/scripts.html' %}

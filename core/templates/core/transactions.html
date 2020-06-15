@@ -1,0 +1,45 @@
+{% load crispy_forms_tags %}
+<!DOCTYPE>
+<html>
+    <head>
+        <title>Customer Results</title>
+        {% include 'users/main_head.html' %}
+        {% include 'users/custom_style.html' %}
+    </head>
+    <body>
+        <!--nav-->
+        {% include 'users/nav.html' %}
+        <div class="container">
+            <!--messages-->
+            {% include 'users/messages.html' %}
+            <!--user update profile form-->
+            <div class="row">
+                <div class="col-lg-6 col-xl-6 mx-auto">
+                    <div class="card card-signin flex-row my-5">
+                        <div class="card-body">
+                            <h5 class="card-title text-center">Enter Transaction</h5>
+                            <hr>
+                            <div class="row">
+                                <div class="col-6">
+                                    <p>{{ cus.first_name }} {{ cus.last_name }}</p>
+                                    <small>
+                                        Phone Number: {{ cus.phone_number }}<br>
+                                        Email: {{ cus.email }} 
+                                    </small>
+                                </div>
+                                <div class="col-6">
+                                    <form method="POST">
+                                        {% csrf_token %}
+                                        {{ form|crispy }}
+                                        <button type="submit" class="btn btn-warning rounded-pill px-4 py-2 text-white">Enter</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include 'users/scripts.html' %}
+    </body>
+</html>

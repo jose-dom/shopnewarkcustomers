@@ -2,7 +2,7 @@
 <!DOCTYPE>
 <html>
     <head>
-        <title>Customer Login</title>
+        <title>Register</title>
         {% include 'users/main_head.html' %}
         {% include 'users/custom_style.html' %}
     </head>
@@ -10,28 +10,25 @@
         <div class="container">
             <!--messages-->
             {% include 'users/messages.html' %}
-            <!--login form-->
+            <!--register form-->
             <div class="row">
-                <div class="col-lg-6 col-xl-6 mx-auto">
+                <div class="col-lg-8 col-xl-8 mx-auto">
                     <div class="card card-signin flex-row my-5">
                         <div class="card-body">
-                            <h5 class="card-title text-center">Log In</h5>
+                            <h5 class="card-title text-center">Shop Newark Vendor Registration</h5>
                             <form method="POST">
                                 {% csrf_token %}
                                 <fieldset class="form-group">
-                                    <!--<legend class="border-bottom mb-4">Enter Savings!</legend>-->
+                                    <legend class="border-bottom mb-4">Register Your Business Today!</legend>
                                     {{ form|crispy }}
                                 </fieldset>
                                 <div class="form-group">
-                                    <button class="btn btn-warning text-white" style="border-radius: 2rem;" type="submit">Log In</button>
-                                    <small class="text-muted ml-2">
-                                        <a href="{% url 'password_reset' %}">Forgot Password</a>
-                                    </small>
+                                    <button class="btn btn-warning text-white" style="border-radius: 2rem;" type="submit">Continue</button>
                                 </div>
                             </form>
                             <div class="border-top pt-3">
                                 <small class="text-muted">
-                                    Need An Account? <a href="{% url 'register-customer' %}">Customer Registration</a>&nbsp;|&nbsp;<a href="{% url 'register-vendor' %}">Vendor Registration</a>
+                                    Already Have An Account? <a href="{% url 'login' %}">Log In</a>
                                 </small>
                             </div>
                         </div>

@@ -1,0 +1,80 @@
+{% load crispy_forms_tags %}
+<!DOCTYPE>
+<html>
+    <head>
+        <title>Profile</title>
+        {% include 'users/main_head.html' %}
+        {% include 'users/custom_style.html' %}
+    </head>
+    <body>
+        <!--nav -->
+        {% include 'users/nav.html' %}
+        <section class="pricing py-5">
+            <div class="container">
+                <!--messages -->
+                {% include 'users/messages.html' %}
+                <!--vendor detail-->
+                <div class="row py-5 align-items-center">
+                    <div class="col-lg-8 m-auto">
+                        <div class="card pricing mb-5 mb-lg-0">
+                            <img class="account-img mx-auto py-2" width="auto" height="60px" src="{{ user.profile.image.url }}" />
+                            <div class="card-body">
+                                <h5 class="card-title text-uppercase text-center">{{ object.company_name }}</h5>
+                                <hr>
+                                <!--basic info-->
+                                <h5 class="card-title text-uppercase">Vendor Information</h5>
+                                <ul class="fa-ul ml-0" style="list-style: none;">
+                                <li>Legal Name: {{ object.legal_name }}</li>
+                                <li>Address: {{ object.address }}</li>
+                                <li>Business Type: {{ object.business_type }}</li>
+                                <li>Contact Name: {{ object.contact_name }}</li>
+                                <li>Phone Number: {{ object.phone_number }}</li>
+                                <li>Website: {{ object.website }}</li>
+                                </ul>
+                                <!--special business data-->
+                                <hr>
+                                <h5 class="card-title text-uppercase">Special Business Data</h5>
+                                <ul class="fa-ul ml-0" style="list-style: none;">
+                                <li>Business Type: {{ object.business_type }}</li>
+                                <li>Business Structure: {{ object.business_structure }}</li>
+                                <li>Length of Operation: {{ object.length_of_operation }}</li>
+                                <li>Number of Employees: {{ object.number_of_employees }}</li>
+                                <li>Location Type: {{ object.location_type }}</li>
+                                <li>Special Business: {{ object.special_business }}</li>
+                                </ul>
+                                <!--tax credit info-->
+                                <hr>
+                                <h5 class="card-title text-uppercase">Tax Credits & Rates</h5>
+                                <!--<a class="btn btn-warning rounded-pill px-4 py-2 text-white" href="#">View</a>-->
+                                <!--banking details-->
+                                <ul class="fa-ul ml-0" style="list-style: none;">
+                                    <li>Tax Credits: {{ object.tax_credits }}</li>
+                                    <li>Rate: {{ object.rate }}</li>
+                                </ul>
+                                <hr>
+                                <h5 class="card-title text-uppercase">Banking Details</h5>
+                                <!--<a class="btn btn-warning rounded-pill px-4 py-2 text-white" href="#">View</a>-->
+                                <ul class="fa-ul ml-0" style="list-style: none;">
+                                    <li>Bank Name: {{ object.bank_name }}</li>
+                                    <li>Branch Location: {{ object.branch_location }}</li>
+                                    <li>ABA Number: {{ object.aba_number }}</li>
+                                    <li>Account Number: {{ object.account_number }}</li>
+                                </ul>
+                            </div>
+                            <div class="card-footer">
+                                <p class="text-muted">
+                                    {% if user.is_superuser %}
+                                    <a href="{% url 'vendor-update-admin' object.id %}">Update</a> Banking Details, Tax Credits & Rates, & Approval Status
+                                    {% else %}
+                                    Please click <a href="{% url 'vendor-update-limited' %}">here</a> to update profile and special business information. Contact Shop Newark if changes to payment info, tax credits, and rates are need.
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        {% include 'users/scripts.html' %}
+    </body>
+</html>

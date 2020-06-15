@@ -1,0 +1,125 @@
+{% load crispy_forms_tags %}
+<!DOCTYPE>
+<html>
+    <head>
+        <title>Profile</title>
+        {% include 'users/main_head.html' %}
+        {% include 'users/custom_style.html' %}
+    </head>
+    <body>
+        <!--nav -->
+        {% include 'users/logout_btn.html' %}
+        <section class="pricing py-5">
+            <div class="container">
+                {% include "users/messages.html" %}
+                <div class="row">
+                    <div class="col-lg-12 col-xl-12 mx-auto">
+                        <div class="card card-signin flex-row my-5">
+                            <div class="card-body">
+                                <h2 class="card-title text-center">Register</h2>
+                                <form method="POST" class="uniForm" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <h6 class="card-title">Company Info</h6>
+                                    <div class="form-row">
+                                    <div class="form-group col-lg-6">
+                                        {{ form.company_name|as_crispy_field }}
+                                        {{ form.business_type|as_crispy_field }}
+                                        {{ form.phone_number|as_crispy_field }}
+                                        {{ form.website|as_crispy_field }}
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        {{ form.legal_name|as_crispy_field }}
+                                        {{ form.address|as_crispy_field }}
+                                        {{ form.contact_name|as_crispy_field }}
+                                    </div>
+                                    </div>
+                                    <h6 class="card-title">Payment Info</h6>
+                                    <div class="form-row hideable_payment_form">
+                                    <div class="form-group col-lg-6">
+                                        {{ form.bank_name|as_crispy_field }}
+                                        {{ form.aba_number|as_crispy_field }}
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        {{ form.branch_location|as_crispy_field }}
+                                        {{ form.account_number|as_crispy_field }}
+                                    </div>
+                                    </div>
+                                    <div class="custom-control custom-checkbox mb-5">
+                                    <input type="checkbox" class="custom-control-input" name="reach_out" id="reach_out" value="1" onchange="valueChanged()">
+                                    <label class="custom-control-label" for="reach_out">Have Shop Newark reach out for payment</label>
+                                    </div>
+                                    <h6 class="card-title">Banners</h6>
+                                    <div class="form-row">
+                                    <div class="form-group col-lg-12">
+                                        <p>
+                                            We will be featuring two of your banners in our web portal. 
+                                            One large banner on the main page, displayed on a rotation basis, 
+                                            and a smaller banner in our &quot;List of Participants&quot; where 
+                                            users may view your business information. Your banners will be linked 
+                                            to your website, if you have one. Banners must be: 1) 240px wide by 
+                                            70px high and 2) 112px wide by 88px high. Please email your banners to: 
+                                            Admin@propertytaxcard.com
+                                        </p>
+                                        <p>If you would like us to create your banners ($25 charge), please check below:</p>
+                                        {{ form.banner|as_crispy_field }}
+                                    </div>
+                                    </div>
+                                    <h6 class="card-title">Please answer the following special business data:</h6>
+                                    <div class="form-row">
+                                    <div class="form-group col-lg-12">
+                                        {{ form.business_structure|as_crispy_field }}
+                                    </div>
+                                    </div>
+                                    <div class="form-row">
+                                    <div class="form-group col-lg-6">
+                                        {{ form.length_of_operation|as_crispy_field }}
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        {{ form.number_of_employees|as_crispy_field }}
+                                    </div>
+                                    </div>
+                                    <div class="form-row">
+                                    <div class="form-group col-lg-6">
+                                        {{ form.location_type|as_crispy_field }}
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        {{ form.special_business|as_crispy_field }}
+                                    </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-lg-6">
+                                            {{ form.tax_credits|as_crispy_field }}
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            {{ form.rate|as_crispy_field }}
+                                        </div>
+                                    </div>
+                                    <h6 class="card-title">Terms & Conditions</h6>
+                                    <div class="form-row">
+                                    <div class="form-group col-lg-3">
+                                        <a href="#">View Terms & Conditions</a>
+                                        {{ form.terms_conditions|as_crispy_field }}
+                                    </div>
+                                    </div>
+                                    <div class="form-group">
+                                    <button class="btn btn-warning rounded-pill px-4 py-2 text-white" type="submit">Register</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <script type="text/javascript">
+            function valueChanged()
+                {
+                    if($('#reach_out').is(":checked"))   
+                        $(".hideable_payment_form").hide();
+                    else
+                        $(".hideable_payment_form").show();
+                }
+        </script>
+        {% include 'users/scripts.html' %}
+    </body>
+</html>

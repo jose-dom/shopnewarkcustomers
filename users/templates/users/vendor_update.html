@@ -1,0 +1,37 @@
+{% load crispy_forms_tags %}
+<!DOCTYPE>
+<html>
+    <head>
+        <title>Update Vendor</title>
+        {% include 'users/main_head.html' %}
+        {% include 'users/custom_style.html' %}
+    </head>
+    <body>
+        <!--nav-->
+        {% include 'users/nav.html' %}
+        <div class="container">
+            <!--messages-->
+            {% include 'users/messages.html' %}
+            <!--user update profile form-->
+            <div class="row">
+                <div class="col-lg-8 col-xl-8 mx-auto">
+                    <div class="card card-signin flex-row my-5">
+                        <div class="card-body">
+                            <h5 class="card-title text-center">Update Vendor Information</h5>
+                            <form method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <fieldset class="form-group">
+                                    {{ form|crispy }}
+                                </fieldset>
+                                <div class="form-group">
+                                    <button class="btn btn-warning text-white" style="border-radius: 2rem;" type="submit">Update</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include 'users/scripts.html' %}
+    </body>
+</html>

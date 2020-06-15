@@ -3,6 +3,9 @@
     <div class="container">
         <div class="row my-5">
             <div class="col-12 ml-auto">
+                {% if user.is_superuser %}
+                <a class="btn btn-dark rounded-pill px-4 py-2 text-white" style="float:left;" href="{% url 'admin-dashboard' %}">Admin&nbsp;&nbsp;&nbsp;<i class="fa fa-cog" aria-hidden="true"></i></a>
+                {% endif %}
                 <a class="btn btn-danger rounded-pill px-4 py-2 text-white" style="float:right;" href="{% url 'logout' %}">Logout&nbsp;&nbsp;&nbsp;<i class="fas fa-sign-out-alt"></i></a>
             </div>
         </div>

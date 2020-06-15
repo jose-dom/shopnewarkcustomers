@@ -1,0 +1,58 @@
+{% load crispy_forms_tags %}
+<!DOCTYPE>
+<html>
+    <head>
+        <title>Customer Results</title>
+        {% include 'users/main_head.html' %}
+        {% include 'users/custom_style.html' %}
+    </head>
+    <body>
+        <!--nav-->
+        {% include 'users/nav.html' %}
+        <div class="container">
+            <!--messages-->
+            {% include 'users/messages.html' %}
+            <!--user update profile form-->
+            <div class="row">
+                <div class="col-lg-6 col-xl-6 mx-auto">
+                    <div class="card card-signin flex-row my-5">
+                        <div class="card-body">
+                            {% if users.count > 1 %}
+                            <h5 class="card-title text-center">Customers Found</h5>
+                            {% else %}
+                            <h5 class="card-title text-center">Customer Found</h5>
+                            {% endif %}
+                            <hr>
+                            {% if email %}
+                            <p>Email: {{ email }}</p>
+                            {% elif phone_number %}
+                            <p>Phone Number: {{ phone_number }}</p>
+                            {% endif %}
+                            <div class="row">
+                                {% for u in users %}
+                                <div class="col-8 mb-5">
+                                    <p>{{ u.first_name }} {{ u.last_name }}</p>
+                                    <small>
+                                        {% if email %}
+                                        <p>Phone Number: {{ u.phone_number }}</p>
+                                        {% elif phone_number %}
+                                        <p>Email: {{ u.email }}</p>
+                                        {% endif %}
+                                    </small>
+                                </div>
+                                <div class="col-4">
+                                    <form method="POST">
+                                        {% csrf_token %}
+                                        <button value="{{ u.id }}" type="submit" name="user" class="btn btn-warning rounded-pill px-4 py-2 text-white">Select</button>
+                                    </form>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include 'users/scripts.html' %}
+    </body>
+</html>

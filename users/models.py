@@ -3,9 +3,60 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from PIL import Image
 from django.urls import reverse
 from phone_field import PhoneField
+from multiselectfield import MultiSelectField
+
+BANNER_CHOICES = (
+    ("Please create my banners. I understand there is a cost of $25","Please create my banners. I understand there is a cost of $25"),
+    ("No, thank you. I will email you my banners (No Cost). If I do not email you my banners within 5 business days, I authorize you to create the banners for us at the above cost of $25 for both banners.","No, thank you. I will email you my banners (No Cost). If I do not email you my banners within 5 business days, I authorize you to create the banners for us at the above cost of $25 for both banners.")
+)
+
+BUSINESS_STRUCTURE_CHOICES = (
+    ("Sole Proprietorship","Sole Proprietorship"),
+    ("Limited Liability Corporation","Limited Liability Corporation"),
+    ("S Corp","S Corp"),
+    ("Other","Other")
+)
+
+LOCATION_TYPE = (
+    ("Physical Location","Physical Location"),
+    ("Home-based","Home-based"),
+    ("Online","Online")
+)
+
+SPECIAL_BUSINESS = (
+    ("Minority Owned","Minority Owned"),
+    ("Woman Owned","Woman Owned"),
+    ("MWBE Certified","MWBE Certified"),
+    ("DBE Certified","DBE Certified"),
+    ("VOSBE Certified","VOSBE Certified"),
+    ("None","None")
+)
+
+TAX_CREDIT_OPTIONS = (
+    ("On line, manually (Free)","On line, manually (Free)"),
+    ("Downloading the application onto my own Android (Free)","Downloading the application onto my own Android (Free)"),
+    ("Fincredit’s Dedicated Device and Stand ($90)","Fincredit’s Dedicated Device and Stand ($90)")
+)
+
+TAX_CREDITS_RATES = (
+    ("Cost to me: 10%, Net Reward to Customer: 7.0%","Cost to me: 10%, Net Reward to Customer: 7.0%"),
+    ("Cost to me: 14.3%, Net Reward to Customer: 10%","Cost to me: 14.3%, Net Reward to Customer: 10%"),
+    ("Cost to me: 17.1%, Net Reward to Customer: 12%","Cost to me: 17.1%, Net Reward to Customer: 12%"),
+    ("Other","Other")
+)
+
+TERMS_CONDITIONS = (
+    ("Agree", "Agree"),
+    ("Disagree", "Disagree")
+)
+
+APPROVED_OPTIONS = (
+    ("Yes", "Yes"),
+    ("No", "No")
+)
 
 class Manager(BaseUserManager):
-    def create_user(self, email, first_name, last_name, address, phone_number, password=None):
+    def create_user(self, email, first_name, last_name, address, phone_number, is_vendor, password=None):
         if not email:
             raise ValueError("Users must have an email address")
         if not first_name:
@@ -16,6 +67,8 @@ class Manager(BaseUserManager):
             raise ValueError("Users must have an address")
         if not phone_number:
             raise ValueError("Users must have an phone number")
+        if not is_vendor:
+            raise ValueError("Users must have a is_vendor")
 
         user = self.model(
             email=self.normalize_email(email),
@@ -23,13 +76,14 @@ class Manager(BaseUserManager):
             last_name=last_name,
             address=address,
             phone_number=phone_number,
+            is_vendor=is_vendor,
         )
 
         user.set_password(password)
         user.save(using=self._db)
         return user
     
-    def create_superuser(self, email, first_name, last_name, address, phone_number, password):
+    def create_superuser(self, email, first_name, last_name, address, phone_number, is_vendor, password):
         user = self.create_user(
             email=self.normalize_email(email),
             password=password,
@@ -37,6 +91,7 @@ class Manager(BaseUserManager):
             last_name=last_name,
             address=address,
             phone_number=phone_number,
+            is_vendor=is_vendor,
         )
         user.is_admin = True
         user.is_staff = True
@@ -58,9 +113,10 @@ class User(AbstractBaseUser):
     last_name = models.CharField(max_length=30, unique=False, verbose_name="Last Name")
     address = models.CharField(max_length=3000, unique=False, verbose_name="Address", help_text='Ex: 123 Broad St, Newark, NJ, 07102', default='')
     phone_number = models.CharField(blank=False, help_text='Contact Phone Number', max_length=12, verbose_name="Phone Number")
+    is_vendor = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name','last_name', 'address', 'phone_number']
+    REQUIRED_FIELDS = ['first_name','last_name', 'address', 'phone_number', 'is_vendor']
 
     objects = Manager()
 
@@ -90,3 +146,47 @@ class Profile(models.Model):
                 output_size = (300,300)
                 img.thumbnail(output_size)
                 img.save(self.image.path)
+
+class Vendor(models.Model):
+    #owner
+    owner = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
+    ##company info
+    company_name = models.CharField(max_length=100, unique=False, verbose_name="Name of Business")
+    legal_name = models.CharField(max_length=100, unique=False, verbose_name="Legal Name")
+    address = models.CharField(max_length=100, unique=False, verbose_name="Address")
+    business_type = models.CharField(max_length=100, unique=False, verbose_name="Type of Business")
+    contact_name = models.CharField(max_length=100, unique=False, verbose_name="Contact Name")
+    phone_number = models.CharField(max_length=10, blank=False, verbose_name="Contact Phone Number", help_text="Ex: 800-786-8765")
+    website = models.CharField(max_length=30, unique=False, verbose_name="Website", help_text="Ex: www.example.com")
+
+    ##banking info
+    bank_name = models.CharField(max_length=100, unique=False, verbose_name="Bank Name", default="", blank=True)
+    branch_location = models.CharField(max_length=100, unique=False, verbose_name="Branch Location", default="", blank=True)
+    aba_number = models.CharField(max_length=100, unique=False, verbose_name="ABA Number", default="", blank=True)
+    account_number = models.CharField(max_length=100, unique=False, verbose_name="Account Number", default="", blank=True)
+
+    ##banner info
+    banner = models.CharField(max_length=1000, choices=BANNER_CHOICES, verbose_name="Options")
+
+    ##speical business info
+    business_structure = models.CharField(max_length=1000, choices=BUSINESS_STRUCTURE_CHOICES, verbose_name="Business Structure")
+    length_of_operation = models.CharField(max_length=100, unique=False, verbose_name="Length of Operation", help_text="Ex: 10 months")
+    number_of_employees = models.CharField(max_length=100, unique=False, verbose_name="Number of Employees", help_text="Ex: 12 employees")
+    location_type = MultiSelectField(choices=LOCATION_TYPE, unique=False, verbose_name="Does your business have a physical location? (Check all that apply)")
+    special_business = MultiSelectField(choices=SPECIAL_BUSINESS, unique=False, verbose_name="Is your business: (Check all that apply)")
+
+    ##tax credits
+    tax_credits = models.CharField(max_length=1000, choices=TAX_CREDIT_OPTIONS, verbose_name="Tax Credits")
+    rate = models.CharField(choices=TAX_CREDITS_RATES, max_length=50, verbose_name="Percentage", default='', null=False)
+
+    ##terms and conditions
+    terms_conditions = models.CharField(choices=TERMS_CONDITIONS, blank=False, verbose_name="Terms & Coniditons", default="Agree", max_length=8)
+
+    ##approved
+    approved = models.CharField(choices=APPROVED_OPTIONS, default="No", verbose_name="Application Approved", max_length=3)
+
+    def __str__(self):
+        return self.company_name
+
+    def get_absolute_url(self):
+        return reverse('vendor-detail', kwargs={'pk': self.pk})
