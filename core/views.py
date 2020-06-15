@@ -21,6 +21,7 @@ def search_customer(request):
             users = User.objects.all().filter(phone_number=phone_number, is_vendor=False)
             if users.count() == 0:
                 messages.warning(request, f'No customers were found by that phone number. Perhaps try searching by email.')
+                print(users)
                 return redirect('search-customer')
             else:
                 request.session['phone_number'] = phone_number
@@ -55,7 +56,7 @@ def search_customer_email(request):
 def customer_results(request):
     phone_number = request.session['phone_number']
     request.session['phone_number'] = phone_number
-    users = User.objects.all().filter(phone_number=phone_number)
+    users = User.objects.all().filter(phone_number=phone_number, is_vendor=False)
     if 'user' in request.POST:
         user_id = request.POST['user']
         request.session['user_id'] = user_id
@@ -70,7 +71,7 @@ def customer_results(request):
 def customer_results_email(request):
     email = request.session['email']
     request.session['email'] = email
-    users = User.objects.all().filter(email=email)
+    users = User.objects.all().filter(email=email, is_vendor=False)
     if 'user' in request.POST:
         user_id = request.POST['user']
         request.session['user_id'] = user_id
