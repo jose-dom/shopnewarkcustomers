@@ -5,9 +5,9 @@ from users.models import Vendor, User
 from django.utils import timezone
 
 SALE_TYPES = (
-    ("1","Sale"),
-    ("2","Return"),
-    ("3","Other")
+    ("Sale","Sale"),
+    ("Return","Return"),
+    ("Other","Other")
 )
 
 class Trans(models.Model):

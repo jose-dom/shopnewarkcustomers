@@ -113,7 +113,12 @@ def vendor_transactions(request):
     transactions = Trans.objects.all().filter(vendor=request.user.vendor)
     total_amount = 0 
     for t in transactions:
-        total_amount += t.amount
+        if t.sale_type == "Sale":
+            total_amount += t.amount
+        elif t.sale_type == "Return":
+            total_amount -= t.amount
+        elif t.sale_type == "Other":
+            total_amount += t.amount
     context = {
         'trans': transactions,
         'total_amount': round(total_amount,2)
@@ -124,7 +129,12 @@ def customer_transactions(request):
     transactions = Trans.objects.all().filter(customer=request.user)
     total_amount = 0 
     for t in transactions:
-        total_amount += t.amount
+        if t.sale_type == "Sale":
+            total_amount += t.amount
+        elif t.sale_type == "Return":
+            total_amount -= t.amount
+        elif t.sale_type == "Other":
+            total_amount += t.amount
     context = {
         'trans': transactions,
         'total_amount': round(total_amount,2)
