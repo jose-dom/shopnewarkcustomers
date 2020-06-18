@@ -73,7 +73,7 @@ def login_view(request):
             if user and user.is_vendor == False:
                 login(request, user)
                 return redirect('profile')
-            elif user and user.is_vendor == True:
+            elif user and user.is_vendor == True and user.vendor:
                 login(request, user)
                 return redirect('profile')
             else:
