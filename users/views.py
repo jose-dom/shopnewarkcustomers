@@ -116,9 +116,9 @@ def vendor_transactions(request):
         total_amount += t.amount
     context = {
         'trans': transactions,
-        'total_amount': total_amount
+        'total_amount': round(total_amount,2)
     }
-    return render(request, 'users/trans.html', context)
+    return render(request, 'users/trans_ven.html', context)
 
 def customer_transactions(request):
     transactions = Trans.objects.all().filter(customer=request.user)
@@ -127,9 +127,9 @@ def customer_transactions(request):
         total_amount += t.amount
     context = {
         'trans': transactions,
-        'total_amount': total_amount
+        'total_amount': round(total_amount,2)
     }
-    return render(request, 'users/trans.html', context)
+    return render(request, 'users/trans_cus.html', context)
 
 class VendorCreateView(LoginRequiredMixin, CreateView):
     model = Vendor
