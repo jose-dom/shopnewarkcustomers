@@ -39,9 +39,9 @@ TAX_CREDIT_OPTIONS = (
 )
 
 TAX_CREDITS_RATES = (
-    ("Cost to me: 10%, Net Reward to Customer: 7.0%","Cost to me: 10%, Net Reward to Customer: 7.0%"),
-    ("Cost to me: 14.3%, Net Reward to Customer: 10%","Cost to me: 14.3%, Net Reward to Customer: 10%"),
-    ("Cost to me: 17.1%, Net Reward to Customer: 12%","Cost to me: 17.1%, Net Reward to Customer: 12%"),
+    ("Cost to me: 10%, Net Discount to Customer: 7.0%","Cost to me: 10%, Net Discount to Customer: 7.0%"),
+    ("Cost to me: 14.3%, Net Discount to Customer: 10%","Cost to me: 14.3%, Net Discount to Customer: 10%"),
+    ("Cost to me: 17.1%, Net Discount to Customer: 12%","Cost to me: 17.1%, Net Discount to Customer: 12%"),
     ("Other","Other")
 )
 
@@ -68,7 +68,7 @@ class Manager(BaseUserManager):
         if not phone_number:
             raise ValueError("Users must have an phone number")
         if not is_vendor:
-            raise ValueError("Users must have a is_vendor")
+            raise ValueError("Users must have a status")
 
         user = self.model(
             email=self.normalize_email(email),
@@ -156,7 +156,7 @@ class Vendor(models.Model):
     address = models.CharField(max_length=100, unique=False, verbose_name="Address")
     business_type = models.CharField(max_length=100, unique=False, verbose_name="Type of Business")
     contact_name = models.CharField(max_length=100, unique=False, verbose_name="Contact Name")
-    phone_number = models.CharField(max_length=10, blank=False, verbose_name="Contact Phone Number", help_text="Ex: 800-786-8765")
+    phone_number = models.CharField(max_length=12, blank=False, verbose_name="Contact Phone Number", help_text="Ex: 800-786-8765")
     website = models.CharField(max_length=30, unique=False, verbose_name="Website", help_text="Ex: www.example.com")
 
     ##banking info
@@ -176,8 +176,8 @@ class Vendor(models.Model):
     special_business = MultiSelectField(choices=SPECIAL_BUSINESS, unique=False, verbose_name="Is your business: (Check all that apply)")
 
     ##tax credits
-    tax_credits = models.CharField(max_length=1000, choices=TAX_CREDIT_OPTIONS, verbose_name="Tax Credits")
-    rate = models.CharField(choices=TAX_CREDITS_RATES, max_length=50, verbose_name="Percentage", default='', null=False)
+    tax_credits = models.CharField(max_length=1000, choices=TAX_CREDIT_OPTIONS, verbose_name="Tax Credits", default="On line, manually (Free)")
+    rate = models.CharField(choices=TAX_CREDITS_RATES, max_length=50, verbose_name="Percentage of Discount", default='', null=False)
 
     ##terms and conditions
     terms_conditions = models.CharField(choices=TERMS_CONDITIONS, blank=False, verbose_name="Terms & Coniditons", default="Agree", max_length=8)
