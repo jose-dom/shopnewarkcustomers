@@ -67,8 +67,6 @@ class Manager(BaseUserManager):
             raise ValueError("Users must have an address")
         if not phone_number:
             raise ValueError("Users must have an phone number")
-        if not is_vendor:
-            raise ValueError("Users must have a status")
 
         user = self.model(
             email=self.normalize_email(email),
