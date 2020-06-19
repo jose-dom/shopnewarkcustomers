@@ -96,6 +96,7 @@ class Manager(BaseUserManager):
         user.is_admin = True
         user.is_staff = True
         user.is_superuser = True
+        user.is_vendor = False
         user.save(using=self._db)
         return user
 
