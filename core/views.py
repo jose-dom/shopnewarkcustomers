@@ -91,7 +91,9 @@ def transactions(request):
         if form.is_valid():
             vendor = request.user.vendor
             customer = cus
-            trans = Trans(trans_id=str(uuid.uuid1()), customer=cus, vendor=vendor, amount=request.POST['amount'], sale_type=request.POST['sale_type'])
+            trans_count = Trans.objects.all().count()
+            temp_id = str(trans_count + 1)
+            trans = Trans(trans_id=str("shopnewark" + temp_id), customer=cus, vendor=vendor, amount=request.POST['amount'], sale_type=request.POST['sale_type'])
             trans.save()
             messages.success(request, f'Transaction was successfully entered. Search for another customer to enter a new transaction.')
             return redirect('search-customer')

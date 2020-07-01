@@ -16,4 +16,4 @@ class Trans(models.Model):
     customer = models.ForeignKey('users.User', on_delete=models.CASCADE, null=True)
     vendor = models.ForeignKey('users.Vendor', on_delete=models.CASCADE, null=False)
     amount = models.FloatField(verbose_name="Amount")
-    sale_type = models.CharField(choices=SALE_TYPES, default="1", max_length=7)
+    sale_type = models.CharField(choices=SALE_TYPES, default="Sale", max_length=7)

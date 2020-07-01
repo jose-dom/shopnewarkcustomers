@@ -115,6 +115,8 @@ def vendor_transactions(request):
     for t in transactions:
         if t.sale_type == "Sale":
             total_amount += t.amount
+        elif t.sale_type == "1":
+            total_amount += t.amount
         elif t.sale_type == "Return":
             total_amount -= t.amount
         elif t.sale_type == "Other":
@@ -130,6 +132,8 @@ def customer_transactions(request):
     total_amount = 0 
     for t in transactions:
         if t.sale_type == "Sale":
+            total_amount += t.amount
+        elif t.sale_type == "1":
             total_amount += t.amount
         elif t.sale_type == "Return":
             total_amount -= t.amount
