@@ -43,7 +43,7 @@ def register_ven(request):
         form = VendorRegisterForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, f'You have successfully registered! Continue with providing more information on your company/organization.')
+            messages.info(request, f'You have successfully registered your primary contact! Continue with providing more information on your company/organization.')
             email = request.POST['email']
             password = request.POST['password1']
             user = authenticate(email=email, password=password)

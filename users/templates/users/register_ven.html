@@ -13,13 +13,18 @@
             <!--register form-->
             <div class="row">
                 <div class="col-lg-8 col-xl-8 mx-auto">
-                    <div class="card card-signin flex-row my-5">
+                    <div class="card card-signin my-5">
+                        <img class="account-img mx-auto py-2" width="auto" height="100px" src="https://eatplaystaynewark.com/wp-content/uploads/2018/03/ShopNewark_logo2Color.png" />
                         <div class="card-body">
-                            <h5 class="card-title text-center">Shop Newark Vendor Registration</h5>
+                            <h3 class="card-title text-center">Vendor Registration</h3>
+                            <h4 class="card-title text-center">Register Your Business Today!</h4>
+                            <small class="text-muted">
+                                Register as the primary contact for your business. This will be the account you use to log in, manage your business, and enter transactions.
+                            </small>
+                            <hr>
                             <form method="POST">
                                 {% csrf_token %}
                                 <fieldset class="form-group">
-                                    <legend class="border-bottom mb-4">Register Your Business Today!</legend>
                                     {{ form|crispy }}
                                 </fieldset>
                                 <div class="form-group">

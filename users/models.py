@@ -47,7 +47,6 @@ TAX_CREDITS_RATES = (
 
 TERMS_CONDITIONS = (
     ("Agree", "Agree"),
-    ("Disagree", "Disagree")
 )
 
 APPROVED_OPTIONS = (
@@ -179,7 +178,7 @@ class Vendor(models.Model):
     rate = models.CharField(choices=TAX_CREDITS_RATES, max_length=50, verbose_name="Percentage of Discount", default='', null=False)
 
     ##terms and conditions
-    terms_conditions = models.CharField(choices=TERMS_CONDITIONS, blank=False, verbose_name="Terms & Coniditons", default="Agree", max_length=8)
+    terms_conditions = MultiSelectField(choices=TERMS_CONDITIONS, unique=False, verbose_name="I will honor the Shop Newark Buy Local Rebate Program by processing Shop Newark rebates in the web portal on a weekly basis. By checking below you confirm and agree to all terms and conditions.")
 
     ##approved
     approved = models.CharField(choices=APPROVED_OPTIONS, default="No", verbose_name="Application Approved", max_length=3)
