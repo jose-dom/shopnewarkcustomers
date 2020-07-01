@@ -56,6 +56,8 @@
                                           $ {{ t.amount }}
                                         {% elif t.sale_type == "Sale" %}
                                           $ {{ t.amount }}
+                                        {% elif t.sale_type == "2" %}
+                                          - $ {{ t.amount }}
                                         {% elif t.sale_type == "Return" %}
                                           - $ {{ t.amount }}
                                         {% endif %}
@@ -63,6 +65,10 @@
                                       <td>
                                         {% if t.sale_type == "1" %}
                                           Sale
+                                        {% elif t.sale_type == "2" %}
+                                          Return
+                                        {% elif t.sale_type == "3" %}
+                                          Other
                                         {% else %}
                                           {{ t.sale_type }}
                                         {% endif %}
