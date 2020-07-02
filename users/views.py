@@ -153,7 +153,6 @@ class VendorCreateView(LoginRequiredMixin, CreateView):
     model = Vendor
     fields = ['company_name', 'legal_name', 'address', 'business_type' ,'contact_name', 'phone_number', 'website',
             'bank_name', 'branch_location', 'aba_number', 'account_number',
-            'banner',
             'business_structure', 'length_of_operation', 'number_of_employees', 'location_type', 'special_business',
             'tax_credits', 'rate',
             'terms_conditions'
@@ -172,7 +171,6 @@ class VendorUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     fields = [
             'company_name', 'legal_name', 'address', 'business_type' ,'contact_name', 'phone_number', 'website',
             'bank_name', 'branch_location', 'aba_number', 'account_number',
-            'banner',
             'business_structure', 'length_of_operation', 'number_of_employees', 'location_type', 'special_business',
             'tax_credits', 'rate',
             'terms_conditions'

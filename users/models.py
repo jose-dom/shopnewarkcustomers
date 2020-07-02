@@ -164,7 +164,7 @@ class Vendor(models.Model):
     account_number = models.CharField(max_length=100, unique=False, verbose_name="Account Number", default="", blank=True)
 
     ##banner info
-    banner = models.CharField(max_length=1000, choices=BANNER_CHOICES, verbose_name="Options")
+    banner = models.CharField(max_length=1000, choices=BANNER_CHOICES, verbose_name="Options", blank=True)
 
     ##speical business info
     business_structure = models.CharField(max_length=1000, choices=BUSINESS_STRUCTURE_CHOICES, verbose_name="Business Structure")

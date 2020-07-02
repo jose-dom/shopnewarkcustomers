@@ -10,16 +10,7 @@
     </head>
     <body>
         <!--nav-->
-        <section class="pricing">
-          <div class="container">
-            <div class="row my-5">
-              <div class="col-12 ml-auto">
-                  <a class="btn btn-dark rounded-pill px-4 py-2 text-white" style="float:left;" href="{% url 'profile' %}"><i class="fas fa-arrow-circle-left"></i>&nbsp;&nbsp;&nbsp;Back to Profile</a>
-                  <a class="btn btn-danger rounded-pill px-4 py-2 text-white" style="float:right;" href="{% url 'logout' %}">Logout&nbsp;&nbsp;&nbsp;<i class="fas fa-sign-out-alt"></i></a>
-              </div>
-            </div>
-          </div>
-        </section>
+        {% include 'users/nav.html' %}
         <section class="pricing py-5">
             <div class="container">
                 <!--messages-->
